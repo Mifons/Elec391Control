@@ -1,5 +1,5 @@
 #include "QuadEncoder.h"
-/*--------------Variables for Moving the Motor--------------*/
+/*--------------Variables for Moving the Motor using L9110S--------------*/
 const int B1A = 5;//define pin 8 for B1A
 const int B1B = 6;//define pin 9 for B1B
 
