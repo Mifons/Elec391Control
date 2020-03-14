@@ -68,7 +68,7 @@ void loop() {
       moveMotorRight(thisChar);
       
   }
-
+  delay(10); //Without delay ,the serial print for pulse count freezes
   newLeft = motorLeft.read();
   newRight = motorRight.read();
   
