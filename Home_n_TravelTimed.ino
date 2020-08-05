@@ -252,7 +252,7 @@ void Travel(long left_new_setpoint, long right_new_setpoint ){
   motorRun(SetPointLeft, PulseCountLeft, A1A, A1B, ActuatorCommandLeft);
   motorRun(SetPointRight, PulseCountRight, B1A, B1B, ActuatorCommandRight);
 
-  delay(1000);
+  delay(10);
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -264,11 +264,9 @@ void Home(){
      HomedRight = digitalRead(HomePinRightMotor);
       delay(debounce_delay);
       
-      while (!(HomedLeft && HomedRight)){ //while one of the motor is not homed loop
+      while (!HomedLeft || !HomedRight){ //while one of the motor is not homed loop
          
-          if(!HomedLeft && !HomedRight){
-            //If left motor and right motore are not homed Make left motor and right motor run to towards home swtich; ie. Left motor spins CCW
-           //Left Motor
+          
            analogWrite(A1A,HomingSpeed);
            analogWrite(A1B,LOW);
            
@@ -276,62 +274,16 @@ void Home(){
            analogWrite(B1A, HomingSpeed);
            analogWrite(B1B,LOW);
         
-        Serial.println('A');
-           
-          }
-          else if (!HomedLeft && HomedRight){
-            //If left motor is not homed but right is homed, only home left motor; ie Right motor spins CW
-           //Left Motor
-           analogWrite(A1A,HomingSpeed);
-           analogWrite(A1B,LOW);
-
-           //Right Motor
-           analogWrite(B1A,LOW);
-           analogWrite(B1B,LOW);
-          
-              
-        
-             Serial.println('B');
-             
-             
-          }
-          else if( HomedLeft && !HomedRight){
-             //If left motor is homed but right motor is not, only home right motor
-              //Left Motor
-             analogWrite(A1A,LOW);
-             analogWrite(A1B,LOW);
-          
-             //Right Motor
-            
-             analogWrite(B1A, HomingSpeed);
-             analogWrite(B1B,LOW);
-
-             Serial.print('C');
-          }
-          else{
-            //Stop both motors, I could use an indicator here.eg while both motors are not home a light goes off
-             //Left Motor  
-             analogWrite(A1A,LOW);
-             analogWrite(A1B,LOW);
-             //Right Motor
-             analogWrite(B1A,LOW);
-             analogWrite(B1B,LOW);
-
-           Serial.print('D');
-             
-            
-          }
-    
-          delay(500); //The arm bounces so much when it contacts with thw switch so need to wait for it to settle
+         
+             delay(500); //The arm bounces so much when it contacts with thw switch so need to wait for it to settle
           HomedLeft = digitalRead( HomePinLeftMotor); 
           delay(debounce_delay);
           HomedRight = digitalRead(HomePinRightMotor);
           delay(debounce_delay);
         
-        // Serial.print(HomedLeft);
-        // Serial.println(HomedRight);
           
       } 
+    
       //Out of the loop meaning it's home so stop the motors
              analogWrite(A1A,LOW);
              analogWrite(A1B, LOW);
@@ -340,8 +292,9 @@ void Home(){
              analogWrite(B1B, LOW);
 
              //Reset Starting point for pulse count; eg, when you first travel, it will remember how much pulse count, so need to reset it when returning home
-           //  PulseCountLeft = 0;
-             //PulseCountRight = 0;
+             delay(500); //this delay allows the arms to bounce away from the switches when the motors are off
+             motorLeft.init();
+             motorRight.init();
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -369,23 +322,23 @@ void setup() {
   PulseCountRight = 0;
    
      
-       delay(5000);//delay before playing
-      
+       
+       Home();
+       
 }
 
 
 //For checking that motor runs and encoder reads pulses correctly
 //long positionLeft  = -999;
 void loop() {
- //Home();
   //delay(1000);
- Travel(180,90); //Plays the note, input are in degrees
+ Travel(230,0); //Plays the note, input are in degrees
  Home();
-/*
+
  while(1){
  
 // Serial.println("Done");
  }
- */
+ 
  //delay(1000);
 }
