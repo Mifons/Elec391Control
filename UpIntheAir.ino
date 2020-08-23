@@ -329,7 +329,7 @@ void ReadMusic(byte note, long *setpoint_left, long *setpoint_right){
                         break;
                     case 1:   //Lowest note
                          pulses_left = 0;
-                         pulses_right = 140;
+                         pulses_right = 150;
                          wait = 0;
                          break;
                     case 2:
@@ -343,7 +343,7 @@ void ReadMusic(byte note, long *setpoint_left, long *setpoint_right){
                          wait = 0;
                          break;
                     case 4:
-                         pulses_left = 127;
+                         pulses_left = 123;
                          pulses_right = 145;
                          wait = 0;
                         break;
@@ -358,7 +358,7 @@ void ReadMusic(byte note, long *setpoint_left, long *setpoint_right){
                          wait = 0;
                         break;
                     case 7:    //Highest not
-                         pulses_left = 240;
+                         pulses_left = 225;
                          pulses_right = 95;
                          wait = 0;
                          break;
@@ -454,6 +454,9 @@ void loop() {
 // char my_music [] = "11111";
  //char my_music [] = "12312321322132134324241"; //this should be in set up 
  char my_music [] = "3377887066554430776655477665540337788706655443";//Twinkle twinkle
+ //char my_music [] = "34313431775663446543431775680757643";//Silent Night
+// char my_music [] = "123456787787878"
+ //char my_music [] = "77775677775678";
  byte music_length = sizeof(my_music);
   
   Play_Music(my_music, music_length);
